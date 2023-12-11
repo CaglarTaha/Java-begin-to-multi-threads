@@ -1,5 +1,5 @@
 # Java-begin-to-multi-threads
-Java'ya tamamen yeni olan bir kişiye Java'yı öğretmek ve ardından multi-threading ve socket programlaması konularını anlatmak, birkaç aşamada ilerleyen bir süreç gerektirir. İlk olarak, Java'nın temel yapı taşlarına odaklanmalıyız. Aşağıda, Java'ya genel bir giriş ve ardından multi-threading ve socket konularına doğru bir adım atmak için takip edebileceğiniz bir genel yol bulunmaktadır:
+Java'ya tamamen yeni olan bir kişiye Java'yı öğretmek ve ardından multi-threading ve socket programlaması konularını anlatmak, birkaç aşamada ilerleyen bir süreç gerektirir. İlk olarak, Java'nın temel yapı taşlarına odaklanmalıyız. Aşağıda, Java'ya genel bir giriş ve ardından multi-threading ve socket konularına doğru bir adım atmak için takip edebileceğiniz bir genel yol bulunmaktadır, bu bir sınava çalışma readme dosyasıdır yazan kişi : Muhammed Taha Çağalar
 
 ### Adım 1: Java Temelleri
 
@@ -324,17 +324,196 @@ public class CustomExceptionExample {
 
 ### Adım 3: Socket Programlama
 
-#### 3.1 Temel Socket Kavramları:
+Tabii ki, işte Java'da temel socket programlama ve ağ iletişimi konularını içeren örnekler:
 
-- ServerSocket ve Socket sınıfları aracılığıyla temel ağ iletişimi kavramlarını öğretin.
+### 3.1 Temel Socket Kavramları:
 
-#### 3.2 TCP ve UDP Protokoller:
+#### 3.1.1 ServerSocket ve Socket Oluşturma:
 
-- TCP ve UDP protokollerini anlatarak temel ağ protokollerini kavramalarını sağlayın.
+```java
+import java.net.ServerSocket;
+import java.net.Socket;
 
-#### 3.3 Veri Akışları ve Nesne Serileştirme:
+public class ServerExample {
 
-- InputStream ve OutputStream kullanarak veri akışlarını yönetmeyi, nesne serileştirmeyi öğretin.
+    public static void main(String[] args) {
+        try {
+            // ServerSocket oluşturma
+            ServerSocket serverSocket = new ServerSocket(12345);
+
+            // Bağlantı bekleniyor
+            System.out.println("Bağlantı bekleniyor...");
+
+            // Client'tan gelen bağlantıyı kabul etme
+            Socket clientSocket = serverSocket.accept();
+            
+            // Bağlantı sağlandı mesajı
+            System.out.println("Bağlantı sağlandı!");
+
+            // ServerSocket ve Socket'i kapatma
+            serverSocket.close();
+            clientSocket.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### 3.2 TCP ve UDP Protokoller:
+
+#### 3.2.1 TCP Server ve Client Örneği:
+
+```java
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+// TCP Server
+public class TCPServer {
+
+    public static void main(String[] args) {
+        try {
+            ServerSocket serverSocket = new ServerSocket(12345);
+            System.out.println("TCP Server bekliyor...");
+
+            Socket clientSocket = serverSocket.accept();
+            System.out.println("Client bağlandı.");
+
+            // Veri almak için BufferedReader kullanma
+            BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            String messageFromClient = reader.readLine();
+            System.out.println("Client'dan gelen mesaj: " + messageFromClient);
+
+            // Veri göndermek için PrintWriter kullanma
+            PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
+            writer.println("Merhaba, Client!");
+
+            serverSocket.close();
+            clientSocket.close();
+            reader.close();
+            writer.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+```java
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+// TCP Client
+public class TCPClient {
+
+    public static void main(String[] args) {
+        try {
+            Socket socket = new Socket("localhost", 12345);
+
+            // Veri göndermek için PrintWriter kullanma
+            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+            writer.println("Merhaba, Server!");
+
+            // Veri almak için BufferedReader kullanma
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            String messageFromServer = reader.readLine();
+            System.out.println("Server'dan gelen mesaj: " + messageFromServer);
+
+            socket.close();
+            writer.close();
+            reader.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### 3.3 Veri Akışları ve Nesne Serileştirme:
+
+#### 3.3.1 Veri Akışları İle Çalışma:
+
+```java
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+// DataInputStream ve DataOutputStream ile veri akışları
+public class DataStreamExample {
+
+    public static void main(String[] args) {
+        try {
+            ServerSocket serverSocket = new ServerSocket(12345);
+            System.out.println("DataStream Server bekliyor...");
+
+            Socket clientSocket = serverSocket.accept();
+            System.out.println("Client bağlandı.");
+
+            // DataInputStream ve DataOutputStream kullanma
+            DataInputStream dataInputStream = new DataInputStream(clientSocket.getInputStream());
+            DataOutputStream dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
+
+            // Veri gönderme
+            dataOutputStream.writeInt(42);
+
+            // Veri alma
+            int receivedData = dataInputStream.readInt();
+            System.out.println("Client'dan gelen veri: " + receivedData);
+
+            serverSocket.close();
+            clientSocket.close();
+            dataInputStream.close();
+            dataOutputStream.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+```java
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.Socket;
+
+// DataInputStream ve DataOutputStream ile veri akışları
+public class DataStreamClient {
+
+    public static void main(String[] args) {
+        try {
+            Socket socket = new Socket("localhost", 12345);
+
+            // DataInputStream ve DataOutputStream kullanma
+            DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+            DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
+            // Veri alma
+            int receivedData = dataInputStream.readInt();
+            System.out.println("Server'dan gelen veri: " + receivedData);
+
+            // Veri gönderme
+            dataOutputStream.writeInt(100);
+
+            socket.close();
+            dataInputStream.close();
+            dataOutputStream.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
 
 #### 3.4 Asenkron Socket Programlama:
 
