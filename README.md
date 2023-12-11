@@ -611,4 +611,4 @@ public class AsynchronousServer {
 
 - Öğrenilen bilgileri pekiştirmek için küçük bir proje veya örnek uygulama üzerinde çalışma yapın.
 
-Bu adımlar, kişinin Java ve ağ programlaması konularında sağlam bir temel oluşturmasına yardımcı olacaktır. Her konuyu öğrenirken örneklerle pratik yapmak, gerçek dünya senaryolarını anlamak için önemlidir. Bu nedenle her adımı örnek uygulamalar veya projelerle desteklemek öğrenmeyi daha etkili hale getirecektir.
+Bu adımlar, kişinin Java ve ağ programlaması konularında sağlam bir temel oluşturmasına yardımcı olacaktır. Her konuyu öğrenirken örneklerle pratik yapmak, gerçek dünya senaryolarını anlamak için önemlidir. Bu nedenle her adımı örnek uygulamalar veya projelerle desteklemek öğrenmeyi daha etkili hale getirecektirebilir ve aynı zamanda sınavlarınızda size bir başarı sağlayacaktır bu repoyu oluşturma amacım da budur .
