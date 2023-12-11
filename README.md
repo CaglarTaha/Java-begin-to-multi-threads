@@ -519,6 +519,94 @@ public class DataStreamClient {
 
 - Asenkron socket programlama konseptlerini anlatın ve temel kullanım senaryolarını gösterin.
 
+
+```java
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousServerSocketChannel;
+import java.nio.channels.AsynchronousSocketChannel;
+import java.nio.channels.CompletionHandler;
+
+public class AsynchronousServer {
+
+    public static void main(String[] args) {
+        try {
+            // Asenkron server socket oluşturma
+            AsynchronousServerSocketChannel serverSocket = AsynchronousServerSocketChannel.open();
+            serverSocket.bind(new InetSocketAddress("localhost", 12345));
+
+            // Bağlantı bekleniyor...
+            System.out.println("Bağlantı bekleniyor...");
+
+            // Bağlantıyı kabul etme
+            serverSocket.accept(null, new CompletionHandler<AsynchronousSocketChannel, Void>() {
+                @Override
+                public void completed(AsynchronousSocketChannel clientSocket, Void attachment) {
+                    // Bağlantı sağlandı
+                    System.out.println("Bağlantı sağlandı!");
+
+                    // Veri alma işlemi başlatma
+                    ByteBuffer buffer = ByteBuffer.allocate(1024);
+                    clientSocket.read(buffer, null, new CompletionHandler<Integer, Void>() {
+                        @Override
+                        public void completed(Integer bytesRead, Void attachment) {
+                            // Veri alma tamamlandı
+                            buffer.flip();
+                            byte[] data = new byte[bytesRead];
+                            buffer.get(data);
+                            String receivedMessage = new String(data);
+                            System.out.println("Client'dan gelen mesaj: " + receivedMessage);
+
+                            // İstemciye cevap gönderme
+                            String response = "Merhaba, Client!";
+                            ByteBuffer responseBuffer = ByteBuffer.wrap(response.getBytes());
+                            clientSocket.write(responseBuffer, null, new CompletionHandler<Integer, Void>() {
+                                @Override
+                                public void completed(Integer bytesWritten, Void attachment) {
+                                    // Cevap gönderme tamamlandı
+                                    System.out.println("Cevap gönderildi.");
+                                    try {
+                                        // Socket'i kapatma
+                                        clientSocket.close();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void failed(Throwable exc, Void attachment) {
+                                    exc.printStackTrace();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void failed(Throwable exc, Void attachment) {
+                            exc.printStackTrace();
+                        }
+                    });
+                }
+
+                @Override
+                public void failed(Throwable exc, Void attachment) {
+                    exc.printStackTrace();
+                }
+            });
+
+            // Programın sonlanmaması için bekletme
+            System.out.println("Server çalışıyor. Çıkış yapmak için bekleniyor...");
+            Thread.sleep(Long.MAX_VALUE);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+
+
 ### Adım 4: Uygulama ve Proje
 
 - Öğrenilen bilgileri pekiştirmek için küçük bir proje veya örnek uygulama üzerinde çalışma yapın.
