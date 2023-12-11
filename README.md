@@ -7,14 +7,187 @@ Java'ya tamamen yeni olan bir kişiye Java'yı öğretmek ve ardından multi-thr
 
 - Java'nın ne olduğu, neden kullanıldığı ve hangi tür uygulamalarda tercih edildiği hakkında genel bir bilgi verin.
 
-#### 1.2 Temel Java Syntax:
+Tabii ki, işte temel Java syntax, sınıflar ve nesnelerle ilgili örnekler:
 
-- Değişkenler, veri tipleri, operatörler, koşullu ifadeler ve döngüler gibi temel syntax konularını öğretin.
+### 1.2 Temel Java Syntax:
 
-#### 1.3 Java Sınıfları ve Nesneleri:
+#### 1.2.1 Değişkenler:
 
-- Java'nın nesne yönelimli programlama (OOP) yapısını anlatın.
-- Sınıf ve nesne oluşturma, miras alma, arayüzler gibi temel OOP kavramlarını öğretin.
+```java
+// Değişken tanımlama
+int sayi = 5;
+double pi = 3.14;
+String mesaj = "Merhaba, Dünya!";
+boolean dogruMu = true;
+
+// Değişken kullanma
+System.out.println("Sayı: " + sayi);
+System.out.println("Pi: " + pi);
+System.out.println("Mesaj: " + mesaj);
+System.out.println("Doğru mu? " + dogruMu);
+```
+
+#### 1.2.2 Veri Tipleri:
+
+```java
+// Temel veri tipleri
+int tamSayi = 10;
+double kesirliSayi = 3.14;
+char karakter = 'A';
+boolean mantiksalDeger = true;
+
+// Diziler
+int[] sayiDizisi = {1, 2, 3, 4, 5};
+String[] isimler = {"Ahmet", "Ayşe", "Mehmet"};
+
+// ArrayList
+ArrayList<String> stringListesi = new ArrayList<>();
+stringListesi.add("Java");
+stringListesi.add("Python");
+```
+
+#### 1.2.3 Operatörler:
+
+```java
+int x = 5;
+int y = 3;
+
+// Aritmetik operatörler
+int toplam = x + y;
+int fark = x - y;
+int carpim = x * y;
+int bolum = x / y;
+int mod = x % y;
+
+// Karşılaştırma operatörleri
+boolean esitMi = (x == y);
+boolean kucuktur = (x < y);
+boolean buyukturEsit = (x >= y);
+
+// Mantıksal operatörler
+boolean andSonucu = (x > 0) && (y > 0);
+boolean orSonucu = (x > 0) || (y > 0);
+boolean notSonucu = !(x > 0);
+```
+
+#### 1.2.4 Koşullu İfadeler:
+
+```java
+int puan = 75;
+
+// if-else yapısı
+if (puan >= 50) {
+    System.out.println("Geçtiniz");
+} else {
+    System.out.println("Kaldınız");
+}
+
+// switch-case yapısı
+switch (puan / 10) {
+    case 10:
+    case 9:
+        System.out.println("A");
+        break;
+    case 8:
+        System.out.println("B");
+        break;
+    case 7:
+        System.out.println("C");
+        break;
+    default:
+        System.out.println("Geçer not alınamadı");
+}
+```
+
+#### 1.2.5 Döngüler:
+
+```java
+// for döngüsü
+for (int i = 1; i <= 5; i++) {
+    System.out.println("Sayı: " + i);
+}
+
+// while döngüsü
+int j = 1;
+while (j <= 5) {
+    System.out.println("Sayı: " + j);
+    j++;
+}
+
+// do-while döngüsü
+int k = 1;
+do {
+    System.out.println("Sayı: " + k);
+    k++;
+} while (k <= 5);
+```
+
+### 1.3 Java Sınıfları ve Nesneleri:
+
+#### 1.3.1 Sınıf ve Nesne Oluşturma:
+
+```java
+// Bir sınıf tanımı
+class Araba {
+    String marka;
+    String model;
+    int uretimYili;
+
+    // Kurucu metod (constructor)
+    public Araba(String marka, String model, int uretimYili) {
+        this.marka = marka;
+        this.model = model;
+        this.uretimYili = uretimYili;
+    }
+
+    // Bir metod
+    void bilgileriGoster() {
+        System.out.println("Marka: " + marka);
+        System.out.println("Model: " + model);
+        System.out.println("Üretim Yılı: " + uretimYili);
+    }
+}
+
+// Araba sınıfından bir nesne oluşturma
+Araba araba1 = new Araba("Toyota", "Corolla", 2022);
+
+// Nesnenin metodunu çağırma
+araba1.bilgileriGoster();
+```
+
+#### 1.3.2 Miras Alma ve Arayüzler:
+
+```java
+// Üst sınıf (base class)
+class Sekiller {
+   
+
+ void ciz() {
+        System.out.println("Şekil çizildi.");
+    }
+}
+
+// Alt sınıf (derived class) - Miras alma
+class Dikdortgen extends Sekiller {
+    void ozelFonksiyon() {
+        System.out.println("Bu bir dikdörtgen.");
+    }
+}
+
+// Arayüz tanımı
+interface HareketEdebilir {
+    void hareketEt();
+}
+
+// Sınıfın bir arayüzü uygulaması
+class Araba implements HareketEdebilir {
+    public void hareketEt() {
+        System.out.println("Araba hareket ediyor.");
+    }
+}
+```
+
+
 
 #### 1.4 Java Temel Kütüphaneleri:
 
