@@ -188,14 +188,121 @@ class Araba implements HareketEdebilir {
 ```
 
 
+- ### 1.4 Java Temel Kütüphaneleri:
 
-#### 1.4 Java Temel Kütüphaneleri:
-
+#### 1.4.1 `java.lang` Kütüphanesi:
 - `java.lang`, `java.util`, `java.io` gibi temel kütüphaneleri anlatarak Java'nın sağladığı hazır araçları öğretin.
+`java.lang` kütüphanesi, Java dilinin temelini oluşturan sınıfları içerir.
 
-#### 1.5 Hata Yakalama ve İstisna İşleme:
+```java
+// String sınıfı kullanımı
+String mesaj = "Merhaba, Java!";
+System.out.println(mesaj);
 
+// Math sınıfı kullanımı
+double karekok = Math.sqrt(25);
+System.out.println("Karekök: " + karekok);
+```
+
+#### 1.4.2 `java.util` Kütüphanesi:
+
+`java.util` kütüphanesi, genel amaçlı veri yapıları ve araçları içerir.
+
+```java
+import java.util.ArrayList;
+import java.util.HashMap;
+
+// ArrayList kullanımı
+ArrayList<String> liste = new ArrayList<>();
+liste.add("Java");
+liste.add("Python");
+System.out.println("Liste: " + liste);
+
+// HashMap kullanımı
+HashMap<String, Integer> sozluk = new HashMap<>();
+sozluk.put("Java", 1995);
+sozluk.put("Python", 1991);
+System.out.println("Sözlük: " + sozluk);
+```
+
+#### 1.4.3 `java.io` Kütüphanesi:
+
+`java.io` kütüphanesi, giriş/çıkış işlemleri için sınıfları içerir.
+
+```java
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
+
+// Dosya okuma
+try (BufferedReader reader = new BufferedReader(new FileReader("dosya.txt"))) {
+    String satir;
+    while ((satir = reader.readLine()) != null) {
+        System.out.println(satir);
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+}
+
+// Dosya yazma
+try (BufferedWriter writer = new BufferedWriter(new FileWriter("yeniDosya.txt"))) {
+    writer.write("Merhaba, dünya!");
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
+### 1.5 Hata Yakalama ve İstisna İşleme:
 - `try`, `catch`, `finally` blokları ile hata yakalama ve istisna işleme konularını anlatın.
+#### 1.5.1 `try`, `catch`, `finally` Blokları:
+
+```java
+// Dosya okuma ve yazma işlemlerinde hata yakalama
+try {
+    // Dosya okuma işlemi
+    BufferedReader reader = new BufferedReader(new FileReader("dosya.txt"));
+
+    // Dosya yazma işlemi
+    BufferedWriter writer = new BufferedWriter(new FileWriter("yeniDosya.txt"));
+
+    // İşlemler...
+
+} catch (FileNotFoundException e) {
+    System.err.println("Dosya bulunamadı: " + e.getMessage());
+} catch (IOException e) {
+    System.err.println("Giriş/Çıkış hatası: " + e.getMessage());
+} finally {
+    // Her durumda çalışacak kod bloğu
+    System.out.println("İşlem tamamlandı.");
+}
+```
+
+#### 1.5.2 Özel İstisna Türleri:
+
+```java
+public class CustomExceptionExample {
+
+    // Kendi istisna sınıfınızı tanımlama
+    static class OzetHatasi extends Exception {
+        public OzetHatasi(String message) {
+            super(message);
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            // Özel istisna fırlatma
+            throw new OzetHatasi("Bu bir özel istisna örneğidir.");
+        } catch (OzetHatasi e) {
+            System.err.println("Özel İstisna Yakalandı: " + e.getMessage());
+        }
+    }
+}
+```
+
+
 
 #### 1.6 Java Çok Biçimliliği:
 
